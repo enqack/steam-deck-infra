@@ -30,3 +30,23 @@ ansible-galaxy install -r ansible-req.yml
 ansible-playbook main-playbook.yml
 ```
 
+## Overview
+
+### Installed Software
+
+* Flatseal
+* Proton Up QT
+* Bottles
+
+* Steam ROM Manager
+* DOSBox
+* DuckStation
+* xemu
+
+* Discord
+* OBS Studio
+* VLC
+* VS Code
+* Spotify
+* Krita
+* Chrome
