@@ -1,6 +1,8 @@
 # Steam Deck Infrastructure
 
-## Steam Deck Preperation
+## Getting Started
+
+### Steam Deck Preperation
 
 We must know where your SD card is mounted to create some directories.
 
@@ -10,14 +12,12 @@ Enter desktop mode and open Konsole, enter the following:
 ls -l /run/media/deck/
 # make note of your SD Card's name and use it on the next line
 export sdcard=/run/media/deck/<sdcard>
-
-rsyncdir=${sdcard}/rsync-backups
-mkdir ${rsyncdir}
+mkdir ${sdcard}/rsync-backups
 ```
 
-## Getting Started
+Now clone the repository and set up Ansible.
 
-In Konsole, enter the following:
+In the same Konsole window as before, enter the following:
 
 ```
 cd $sdcard
@@ -27,7 +27,38 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r python-req.txt
 ansible-galaxy install -r ansible-req.yml
+```
+
+### Operations
+
+Now you can run Ansible to install and configure the software. 
+
+```
 ansible-playbook main-playbook.yml
+```
+
+Back-up your Steam Deck user files with the following command:
+
+```
+ansible-playbook deck-backup.yml
+```
+
+Restore your Steam Deck user files with the following command:
+
+```
+ansible-playbook deck-restore.yml
+```
+
+### Additional Runs
+
+Once Konsole is closed some configuration is lost. To re-run the above operations enter following in a new Konsole window:
+
+```
+ls -l /run/media/deck/
+# make note of your SD Card's name and use it on the next line
+export sdcard=/run/media/deck/<sdcard>
+cd ${sdcard}/steam-deck-intra
+source .venv/bin/activate
 ```
 
 ## Overview
