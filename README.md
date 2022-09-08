@@ -53,7 +53,7 @@ ansible-playbook playbooks/deck-restore.yml
 
 ### Additional Runs
 
-Once Konsole is closed some configuration is lost. To re-run the above operations enter following in a new Konsole window:
+Once Konsole is closed some configuration is lost. To re-run the above operations enter the following in a new Konsole window:
 
 ```
 ls -l /run/media/deck/
