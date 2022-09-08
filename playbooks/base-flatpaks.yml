@@ -6,9 +6,10 @@
   tasks:
     - name: installing flatpak list
       community.general.flatpak:
-        name:
-          - com.github.tchx84.Flatseal
-          - net.davidotek.pupgui2
-          - com.usebottles.bottles
+        name: "{{ item }}"
+        method: user
         state: present
-
+      loop:        
+        - com.github.tchx84.Flatseal
+        - net.davidotek.pupgui2
+        - com.usebottles.bottles
