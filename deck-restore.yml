@@ -1,0 +1,17 @@
+---
+- name: restore steam deck
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: restore user configuration
+      ansible.posix.synchronize:
+        src: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
+        dest: /home/deck/.config
+        mode: pull
+
+    - name: restore user variable data
+      ansible.posix.synchronize:
+        src: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
+        dest: /home/deck/.var
+        mode: pull

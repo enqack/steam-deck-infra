@@ -1,0 +1,13 @@
+---
+- name: Main playbook
+  hosts: localhost
+  gather_facts: false
+
+- name: Include base playbook
+  ansible.builtin.import_playbook: base-flatpaks.yml
+
+- name: Include emulation playbook
+  ansible.builtin.import_playbook: emu-flatpaks.yml
+
+- name: Include extra software playbook
+  ansible.builtin.import_playbook: extra-flatpaks.yml

@@ -1,0 +1,17 @@
+---
+- name: install extra flatpaks
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - name: installing flatpak list
+      community.general.flatpak:
+        name:
+          - com.discordapp.Discord
+          - com.obsproject.Studio
+          - org.videolan.VLC
+          - com.visualstudio.code
+          - com.spotify.Client
+          - org.kde.krita
+          - com.google.Chrome
+        state: present

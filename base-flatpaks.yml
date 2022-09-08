@@ -1,0 +1,14 @@
+---
+- name: install base flatpaks
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - name: installing flatpak list
+      community.general.flatpak:
+        name:
+          - com.github.tchx84.Flatseal
+          - net.davidotek.pupgui2
+          - com.usebottles.bottles
+        state: present
+

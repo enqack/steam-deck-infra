@@ -1,0 +1,15 @@
+---
+- name: install emulation related flatpaks
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - name: installing flatpak list
+      community.general.flatpak:
+        name:
+          - com.steamgriddb.steam-rom-manager
+          - com.dosbox.DOSBox
+          - io.github.dosbox-staging
+          - org.duckstation.DuckStation
+          - app.xemu.xemu
+        state: present
