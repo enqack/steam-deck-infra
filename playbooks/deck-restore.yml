@@ -34,10 +34,9 @@
     - block:
 
       - name: restore error
-        ansible.builtin.debug:
+        ansible.builtin.fail:
           msg: "Timestamp variable not set. Example: export timestamp=2022-12-31-23-59-59"
         
-
       - name: get available timestamps
         ansible.builtin.shell: "ls {{ sdcard }}/rsync-backups/"
         register: timestamps
