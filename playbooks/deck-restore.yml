@@ -15,3 +15,9 @@
         src: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
         dest: /home/deck/.var
         mode: pull
+
+    - name: restore most saved game data
+      ansible.posix.synchronize:
+        src: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
+        dest: /home/deck/.local/share/Steam/userdata
+        mode: pull

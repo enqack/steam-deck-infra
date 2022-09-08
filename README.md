@@ -1,6 +1,6 @@
 # Steam Deck Infrastructure
 
-This project is used to manage flatpak software installs and manage back-ups of user data.
+This project is used to manage flatpak software installs and manage backups of user data.
 
 ## Getting Started
 
@@ -36,19 +36,19 @@ ansible-galaxy install -r ansible-req.yml
 Now you can run Ansible to install and configure the software. 
 
 ```
-ansible-playbook main-playbook.yml
+ansible-playbook playbooks/main-playbook.yml
 ```
 
 Back-up your Steam Deck user files with the following command:
 
 ```
-ansible-playbook deck-backup.yml
+ansible-playbook playbooks/deck-backup.yml
 ```
 
 Restore your Steam Deck user files with the following command:
 
 ```
-ansible-playbook deck-restore.yml
+ansible-playbook playbooks/deck-restore.yml
 ```
 
 ### Additional Runs
