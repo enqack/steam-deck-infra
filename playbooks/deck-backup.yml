@@ -1,20 +1,25 @@
 ---
 - name: backup steam deck
   hosts: localhost
-  gather_facts: false
+  gather_facts: true
+
+  vars:
+    home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+    sdcard: "{{ lookup('ansible.builtin.env', 'sdcard') }}"
+    timestamp: "{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}-{{ ansible_date_time.second }}"
 
   tasks:
     - name: backup user configuration
       ansible.posix.synchronize:
-        src: /home/deck/.config
-        dest: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
+        src: "{{ home }}/.config"
+        dest: "{{ sdcard }}/rsync-backups/{{ timestamp }}/"
 
     - name: backup user variable data
       ansible.posix.synchronize:
-        src: /home/deck/.var
-        dest: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
+        src: "{{ home }}/.var"
+        dest: "{{ sdcard }}/rsync-backups/{{ timestamp }}/"
 
     - name: backup most saved game data
       ansible.posix.synchronize:
-        src: /home/deck/.local/share/Steam/userdata
-        dest: "{{ lookup('ansible.builtin.env', 'sdcard') }}/rsync-backups/"
+        src: "{{ home }}/.local/share/Steam/userdata"
+        dest: "{{ sdcard }}/rsync-backups/{{ timestamp }}/"
