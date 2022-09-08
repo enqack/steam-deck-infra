@@ -10,27 +10,43 @@
 
   tasks:
     - block:
+
       - name: restore user configuration
         ansible.posix.synchronize:
           src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/.config"
-          dest: "{{ home }}/.config"
+          dest: "{{ home }}/"
           mode: pull
 
       - name: restore user variable data
         ansible.posix.synchronize:
           src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/.var"
-          dest: "{{ home }}/.var"
+          dest: "{{ home }}/"
           mode: pull
 
       - name: restore most saved game data
         ansible.posix.synchronize:
-          src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/.local"
-          dest: "{{ home }}/.local/share/Steam/userdata"
+          src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/userdata"
+          dest: "{{ home }}/.local/share/Steam/"
           mode: pull
+
       when: lookup('ansible.builtin.env', 'timestamp') != ''
 
-    - name: restore error
-      ansible.builtin.debug:
-        msg: "Timestamp variable not set. Example: export timestamp=2022-09-08-10-50-59"
+    - block:
+
+      - name: restore error
+        ansible.builtin.debug:
+          msg: "Timestamp variable not set. Example: export timestamp=2022-12-31-23-59-59"
+        
+
+      - name: get available timestamps
+        ansible.builtin.shell: "ls {{ sdcard }}/rsync-backups/"
+        register: timestamps
+        no_log: true
+
+      - name: show available timestamps
+        ansible.builtin.debug:
+          msg: "{{ timestamps.stdout_lines }}"
+
       when: lookup('ansible.builtin.env', 'timestamp') == ''
       
+    

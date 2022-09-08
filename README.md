@@ -50,7 +50,7 @@ Restore your Steam Deck user files with the following commands:
 ```
 ls $sdcard/rsync-backups
 # make note of backup timestamp to use for the operation
-export timestamp=<2022-12-31-10-45-59>
+export timestamp=<2022-12-31-23-59-59>
 ansible-playbook playbooks/deck-restore.yml
 ```
 
