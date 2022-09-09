@@ -14,7 +14,7 @@
 - name: install packages
   community.general.pacman:
     name: "{{ item }}"
-    state: present
+    state: "{{ pacman_installs_state }}"
   loop: "{{ pacman_installs_packages }}"
 
 - name: enable steamos-readonly

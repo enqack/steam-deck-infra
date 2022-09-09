@@ -1,6 +1,4 @@
 ---
 # defaults file for pacman-installs
 
-#pacman_installs_packages:
-#  - zsh
-#  - alacritty
+pacman_installs_packages: present
