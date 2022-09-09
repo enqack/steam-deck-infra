@@ -8,7 +8,6 @@
     - role: pacman-installs
       vars:
         pacman_installs_packages:
-          - zsh
           - alacritty
 
     # base packages
