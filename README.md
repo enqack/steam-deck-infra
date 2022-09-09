@@ -70,6 +70,8 @@ source .venv/bin/activate
 
 ### Installed Software
 
+* alacritty
+
 * Flatseal
 * Proton Up QT
 * Bottles
