@@ -4,7 +4,7 @@ This project is used to manage software installs and manage backups of user data
 
 ## Getting Started
 
-### Steam Deck Preperation
+### Steam Deck Preparation
 
 We must know where your SD card is mounted to create some directories.
 

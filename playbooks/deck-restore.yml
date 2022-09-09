@@ -47,5 +47,4 @@
           msg: "{{ timestamps.stdout_lines }}"
 
       when: lookup('ansible.builtin.env', 'timestamp') == ''
-      
-    
+       
