@@ -17,6 +17,12 @@ export sdcard=/run/media/deck/<sdcard>
 mkdir ${sdcard}/rsync-backups
 ```
 
+In order to proceed a password must be added to the user account. Enter the following and you will be prompted to supply a password and confirm it ( characters will not be displayed as you enter the password ).
+
+```
+passwd
+```
+
 Now clone the repository and set up Ansible.
 
 In the same Konsole window as before, enter the following:
