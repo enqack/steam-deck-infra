@@ -1,0 +1,22 @@
+---
+# tasks file for pacman-installs
+
+- name: disable steamos-readonly
+  ansible.builtin.shell: steamos-readonly disable
+  become: true
+
+- name: initialize pacman
+  ansible.builtin.shell: pacman-key --init
+
+- name: populate pacman
+  ansible.builtin.shell: pacman-key --populate archlinux
+
+- name: install packages
+  community.general.pacman:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ pacman_installs_packages }}"
+
+- name: enable steamos-readonly
+  ansible.builtin.shell: steamos-readonly enable
+  become: true

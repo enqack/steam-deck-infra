@@ -1,0 +1,9 @@
+---
+# tasks file for flatpak-installs
+
+- name: installing flatpak list
+  community.general.flatpak:
+    name: "{{ item }}"
+    method: user
+    state: present
+  loop: "{{ flatpak_installs_packages }}"

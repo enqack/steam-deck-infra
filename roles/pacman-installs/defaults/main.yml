@@ -1,0 +1,6 @@
+---
+# defaults file for pacman-installs
+
+#pacman_installs_packages:
+#  - zsh
+#  - alacritty
