@@ -1,6 +1,6 @@
 # Steam Deck Infrastructure
 
-This project is used to manage flatpak software installs and manage backups of user data.
+This project is used to manage software installs and manage backups of user data.
 
 ## Getting Started
 
