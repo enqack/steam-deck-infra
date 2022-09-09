@@ -1,4 +1,4 @@
 ---
 # defaults file for pacman-installs
 
-pacman_installs_packages: present
+pacman_installs_state: present

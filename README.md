@@ -36,7 +36,7 @@ ansible-galaxy install -r ansible-req.yml
 Now you can run Ansible to install and configure the software. 
 
 ```
-ansible-playbook playbooks/main.yml
+ansible-playbook playbooks/main.yml --ask-become-pass
 ```
 
 Back-up your Steam Deck user files with the following command:
