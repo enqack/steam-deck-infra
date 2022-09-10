@@ -4,47 +4,36 @@
   gather_facts: false
 
   vars:
+    user: "{{ lookup('ansible.builtin.env', 'USER') }}"
     home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
-    sdcard: "{{ lookup('ansible.builtin.env', 'sdcard') }}"
-    timestamp: "{{ lookup('ansible.builtin.env', 'timestamp') }}"
+    sdcard_label: "sdinfra"
+    sdcard_path: "/run/media/{{ user }}/{{ sdcard_label }}"
 
   tasks:
-    - block:
+    - name: "check for SD card with label: {{ sdcard_label }}"
+      ansible.builtin.stat:
+        path: "{{ sdcard_path }}"
+      register: sdcard_check
 
-      - name: restore user configuration
-        ansible.posix.synchronize:
-          src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/.config"
-          dest: "{{ home }}/"
-          mode: pull
+    - name: fail if SD card was not detected
+      fail:
+        msg: SD card was not detected
+      when: sdcard_check.stat.isdir is not defined
 
-      - name: restore user variable data
-        ansible.posix.synchronize:
-          src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/.var"
-          dest: "{{ home }}/"
-          mode: pull
+    - name: restore user configuration
+      ansible.posix.synchronize:
+        src: "{{ sdcard }}/rsync-backups/.config"
+        dest: "{{ home }}/"
+        mode: pull
 
-      - name: restore most saved game data
-        ansible.posix.synchronize:
-          src: "{{ sdcard }}/rsync-backups/{{ timestamp }}/userdata"
-          dest: "{{ home }}/.local/share/Steam/"
-          mode: pull
+    - name: restore user variable data
+      ansible.posix.synchronize:
+        src: "{{ sdcard }}/rsync-backups/.var"
+        dest: "{{ home }}/"
+        mode: pull
 
-      when: lookup('ansible.builtin.env', 'timestamp') != ''
-
-    - block:
-
-      - name: restore error
-        ansible.builtin.fail:
-          msg: "Timestamp variable not set. Example: export timestamp=2022-12-31-23-59-59"
-        
-      - name: get available timestamps
-        ansible.builtin.shell: "ls {{ sdcard }}/rsync-backups/"
-        register: timestamps
-        no_log: true
-
-      - name: show available timestamps
-        ansible.builtin.debug:
-          msg: "{{ timestamps.stdout_lines }}"
-
-      when: lookup('ansible.builtin.env', 'timestamp') == ''
-       
+    - name: restore most saved game data
+      ansible.posix.synchronize:
+        src: "{{ sdcard }}/rsync-backups/userdata"
+        dest: "{{ home }}/.local/share/Steam/"
+        mode: pull

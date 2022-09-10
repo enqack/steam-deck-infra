@@ -6,27 +6,33 @@ This project is used to manage software installs and manage backups of user data
 
 ### Steam Deck Preparation
 
-We must know where your SD card is mounted to create some directories.
+Insert a blank SD card into you Steam Deck. Then enter desktop mode and open Konsole.
 
-Enter desktop mode and open Konsole, enter the following:
-
-```
-ls -l /run/media/deck/
-# make note of your SD Card's name and use it on the next line
-export sdcard=/run/media/deck/<sdcard>
-mkdir ${sdcard}/rsync-backups
-```
-
-In order to proceed a password must be added to the user account. Enter the following and you will be prompted to supply a password and confirm it ( characters will not be displayed as you enter the password ).
+A password must be added to the user account. Enter the following into Konsole and you will be prompted to supply a password and confirm it ( characters will not be displayed as you enter the password ):
 
 ```
 passwd
 ```
 
-Now clone the repository and set up Ansible. In the same Konsole window as before, enter the following:
+We must ensure your SD card is unmounted in order to partition and format it. In Konsole, enter the following:
 
 ```
-cd $sdcard
+sudo umount /dev/sda
+sudo parted /dev/sda rm 1
+sudo parted --script --align optimal -- /dev/sda mkpart primary 1MiB -2048s
+mkfs.ext4 -L sdinfra /dev/sda1
+```
+
+Now re-insert the SD card. Then set permissions for the SD card. In Konsole, enter the following:
+
+```
+sudo chown $USER:$USER /run/media/$USER/sdinfra
+```
+
+Now clone the repository and set up Ansible. In Konsole, enter the following:
+
+```
+cd /run/media/$USER/sdinfra
 git clone https://github.com/enqack/steam-deck-intra.git
 cd steam-deck-intra
 python3 -m venv .venv
@@ -52,9 +58,6 @@ ansible-playbook playbooks/deck-backup.yml
 Restore your Steam Deck user files with the following commands:
 
 ```
-ls $sdcard/rsync-backups | sort
-# make note of backup timestamp to use for the operation
-export timestamp=<2022-12-31-23-59-59>
 ansible-playbook playbooks/deck-restore.yml
 ```
 
@@ -63,10 +66,7 @@ ansible-playbook playbooks/deck-restore.yml
 Once Konsole is closed some configuration is lost. To re-run the above operations enter the following in a new Konsole window:
 
 ```
-ls -l /run/media/deck/
-# make note of your SD Card's name and use it on the next line
-export sdcard=/run/media/deck/<sdcard>
-cd ${sdcard}/steam-deck-intra
+cd /run/media/$USER/sdinfra/steam-deck-infra
 source .venv/bin/activate
 ```
 
