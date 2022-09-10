@@ -6,7 +6,7 @@ This project is used to manage software installs and manage backups of user data
 
 ### Steam Deck Preparation
 
-Insert a blank SD card into you Steam Deck. Then enter desktop mode and open Konsole.
+Insert a blank SD card into your Steam Deck. Then enter desktop mode and open Konsole.
 
 A password must be added to the user account. Enter the following into Konsole and you will be prompted to supply a password and confirm it ( characters will not be displayed as you enter the password ):
 
