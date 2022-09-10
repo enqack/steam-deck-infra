@@ -23,9 +23,7 @@ In order to proceed a password must be added to the user account. Enter the foll
 passwd
 ```
 
-Now clone the repository and set up Ansible.
-
-In the same Konsole window as before, enter the following:
+Now clone the repository and set up Ansible. In the same Konsole window as before, enter the following:
 
 ```
 cd $sdcard
