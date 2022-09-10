@@ -1,6 +1,6 @@
 ---
 - name: backup steam deck
-  hosts: localhost
+  hosts: all
   gather_facts: true
 
   vars:

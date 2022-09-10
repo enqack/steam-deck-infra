@@ -1,6 +1,6 @@
 ---
 - name: restore steam deck
-  hosts: localhost
+  hosts: all
   gather_facts: false
 
   vars:

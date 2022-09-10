@@ -1,6 +1,6 @@
 ---
 - name: Main playbook
-  hosts: localhost
+  hosts: all
   gather_facts: false
 
   roles:
