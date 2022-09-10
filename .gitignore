@@ -1,5 +1,8 @@
 .venv
 collections
-roles
+
+roles/*
+!roles/pacman-installs
+!roles/flatpak-installs
 
 .vscode
