@@ -4,5 +4,5 @@ collections
 roles/*
 !roles/pacman-installs
 !roles/flatpak-installs
-
+!roles/user_nix
 .vscode

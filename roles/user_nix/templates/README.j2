@@ -1,0 +1,68 @@
+Q1. How do I enter the nix environment? Run:
+
+  {{ N }}/enter
+
+Q2. How do I run a program without installing it?
+
+  nix run nixpkgs#ncdu
+  nix run nixpkgs#vlc
+
+or
+
+  nix shell nixpkgs#ncdu
+  ncdu
+
+Q3. How do I find a program to run?
+
+  nix search nixpkgs ncdu
+
+Q4. How do I install a program? Add the name of the program to home.nix's home.packages line. For example:
+
+  home.packages = (with pkgs; [
+    nixFlakes nettools bashInteractive
+    ncdu vlc
+  ]);
+
+Then rebuild with:
+
+  home-manager switch
+
+Q5. Where is the home.nix and flake.nix?
+
+  {{ N }}/home/.config/nixpkgs/home.nix
+  {{ N }}/home/.config/nixpkgs/flake.nix
+
+Q6. How do I rebuild after editing home.nix or flake.nix? Run:
+
+   home-manger switch  
+
+Q7. How do I update the programs?
+
+  nix registry pin nixpkgs
+  nix flake update ~/.config/nixpkgs
+  home-manager switch
+
+Q8. How do I delete programs that are no longer installed?
+
+  nix-collect-garbage -d
+
+Q9. What is the layout of this install?
+
+  dir          {{ N }}
+  enter script {{ N }}/enter
+  home         {{ N }}/home
+  README       {{ N }}/home/README
+  nix store    {{ N }}/root-nix/store
+
+Q10. How do I remove everything, including the nix home directory?
+
+  chmod -R u+w '{{ N }}'
+  rm '{{ N }}' -r
+
+Q11. Where are these instructions stored?
+
+  {{ N }}/home/README
+
+Q12. How do I enter the nix environment again? Run:
+
+  {{ N }}/enter

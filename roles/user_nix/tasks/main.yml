@@ -1,0 +1,47 @@
+---
+# tasks file for user_nix
+
+- name: check if user nix is already installed
+  ansible.builtin.stat:
+    path: "{{ N }}"
+  register: n_check
+
+- name: fail if user nix is already installed
+  ansible.builtin.fail:
+    msg: user nix is already installed
+  when: n_check.stat.isdir is defined
+
+- name: include tasks
+  ansible.builtin.include_tasks: directories.yml
+
+- name: include tasks
+  ansible.builtin.include_tasks: files.yml
+
+- name: include tasks
+  ansible.builtin.include_tasks: links.yml
+
+- name: download nix-user-chroot
+  ansible.builtin.get_url:
+    url: "{{ nix_user_chroot_url }}"
+    dest: "{{ N }}/nix-user-chroot"
+
+- name: make nix-user-chroot executable
+  ansible.builtin.file:
+    path: "{{ N }}/nix-user-chroot"
+    mode: "0750"
+
+- name: download nix installer
+  ansible.builtin.get_url:
+    url: "{{ nix_installer_url }}"
+    dest: "{{ N }}/nix.install"
+
+- name: make nix.install executable
+  ansible.builtin.file:
+    path: "{{ N }}/nix.install"
+    mode: "0750"
+
+- name: install nix package manager
+  ansible.builtin.shell: HOME={{ N }}/home {{ N }}/nix-user-chroot {{ N }}/root-nix /bin/bash {{ N }}/nix.install
+
+- name: install home manager
+  ansible.builtin.shell: HOME={{ N }}/home {{ N }}/nix-user-chroot {{ N }}/root-nix /bin/bash {{ N }}/home-manager-flake.install

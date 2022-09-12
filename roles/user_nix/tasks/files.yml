@@ -1,0 +1,34 @@
+---
+# tasks file for user_nix
+
+- name: "create {{ N }}/home/README"
+  ansible.builtin.template:
+    src: templates/README.j2
+    dest: "{{ N }}/home/README"
+
+- name: "create {{ N }}/home/.config/nix/nix.conf"
+  ansible.builtin.copy:
+    src: files/nix.conf
+    dest: "{{ N }}/home/.config/nix/nix.conf"
+
+- name: "create {{ N }}/home/.config/nixpkgs/flake.nix"
+  ansible.builtin.template:
+    src: templates/flake.nix.j2
+    dest: "{{ N }}/home/.config/nixpkgs/flake.nix"
+
+- name: "create {{ N }}/home/.config/nixpkgs/home.nix"
+  ansible.builtin.template:
+    src: templates/home.nix.j2
+    dest: "{{ N }}/home/.config/nixpkgs/home.nix"
+
+- name: "create {{ N }}/home/enter"
+  ansible.builtin.template:
+    src: templates/enter.j2
+    dest: "{{ N }}/home/enter"
+    mode: "0750"
+
+- name: "create {{ N }}/home-manager-flake.install"
+  ansible.builtin.template:
+    src: templates/home-manager-flake.install.j2
+    dest: "{{ N }}/home-manager-flake.install"
+    mode: "0750"

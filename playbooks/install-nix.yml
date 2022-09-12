@@ -1,0 +1,7 @@
+---
+- name: install user nix
+  hosts: all
+  gather_facts: false
+
+  roles:
+  - user_nix

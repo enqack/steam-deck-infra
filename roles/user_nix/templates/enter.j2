@@ -1,0 +1,6 @@
+#!/bin/bash
+export HOME={{ N }}/home
+cd ~/
+du -hs {{ N }}
+echo "home:" $HOME
+exec {{ N }}/nix-user-chroot {{ N }}/root-nix ~/.nix-profile/bin/bash -l

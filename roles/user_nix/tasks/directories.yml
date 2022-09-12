@@ -1,0 +1,32 @@
+---
+# tasks file for user_nix
+
+- name: "create {{ N }} directory"
+  ansible.builtin.file:
+    path: "{{ N }}"
+    state: directory
+
+- name: "create {{ N }}/root-nix directory"
+  ansible.builtin.file:
+    path: "{{ N }}/root-nix"
+    state: directory
+
+- name: "create {{ N }}/home directory"
+  ansible.builtin.file:
+    path: "{{ N }}/home"
+    state: directory
+
+- name: "create {{ N }}/home/.config directory"
+  ansible.builtin.file:
+    path: "{{ N }}/home/.config"
+    state: directory
+
+- name: "create {{ N }}/home/.config/nix directory"
+  ansible.builtin.file:
+    path: "{{ N }}/home/.config/nix"
+    state: directory
+
+- name: "create {{ N }}/home/.config/nixpkgs directory"
+  ansible.builtin.file:
+    path: "{{ N }}/home/.config/nixpkgs"
+    state: directory

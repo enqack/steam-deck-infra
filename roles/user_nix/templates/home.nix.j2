@@ -1,0 +1,30 @@
+# After editing this file, run:
+#
+#   home-manager switch
+#
+{ config, pkgs, ... }: {
+  home.username = "{{ user }}";
+  home.homeDirectory = "{{ N }}/home";
+  home.stateVersion = "22.05";
+
+  home.packages = (with pkgs; [
+    nixFlakes nettools bashInteractive
+    # To find more packages, use:
+    #
+    #   nix search nixpkgs NAME
+    #
+  ]);
+
+  #To find more home-manager programs use:
+  #
+  #  man home-configuration.nix
+  #
+  programs.home-manager.enable = true;
+
+  programs.bash = {
+    enable = true;
+    profileExtra = ''
+      . "\${config.home.profileDirectory}/etc/profile.d/nix.sh"
+    '';
+  };
+}

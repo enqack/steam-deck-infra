@@ -1,0 +1,14 @@
+---
+# tasks file for user_nix
+
+- name: create user symlink
+  ansible.builtin.file:
+    src: "{{ home }}"
+    dest: "{{ N }}/home/{{ user }}"
+    state: link
+
+- name: create home.nix symlink
+  ansible.builtin.file:
+    src: .config/nixpkgs/home.nix
+    dest: "{{ N }}/home/home.nix"
+    state: link

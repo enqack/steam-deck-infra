@@ -1,0 +1,23 @@
+oops() { echo "$0:" "$@" >&2; exit 1; }
+title() { printf "\033]0;%s\007" "$*"; }
+
+export NIX_USER_CONF_FILES={{ N }}/home/.config/nix/nix.conf
+
+title "Loading ~/.nix-profile/etc/profile.d/nix.sh"
+. ~/.nix-profile/etc/profile.d/nix.sh || oops "failed to source ~/.nix-profile/etc/profile.d/nix.sh"
+
+title "nix registry pin nixpkgs"
+nix registry pin nixpkgs || oops "failed to: nix registry pin nixpkgs"
+
+title "Building home-manager configuration"
+nix-env --set-flag priority 10 nix || oops "failed to: nix-env --set-flag priority 10 nix"
+nix build --no-link ~/.config/nixpkgs#homeConfigurations.{{ user }}.activationPackage || oops "failed to build ~/.config/nixpkgs/flake.nix#homeConfigurations.{{ user }}.activationPackage"
+
+title "Activating home-manager configuration"
+"\$(nix path-info ~/.config/nixpkgs/flake.nix#homeConfigurations.{{ user }}.activationPackage)"/activate || oops "failed to activate home-manager config"
+
+title "Removing nix-env's nix command"
+nix-env -e nix || oops "failed to remove nix-env's version of the nix command"
+
+title "nix-collect-garbage -d"
+nix-collect-garbage -d || oops "failed to nix-collect-garbage -d"

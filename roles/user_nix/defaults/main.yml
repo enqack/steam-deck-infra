@@ -1,0 +1,12 @@
+---
+# defaults file for user_nix
+
+home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+N: "{{ home }}/nix"
+
+
+nix_user_chroot_version: "1.2.2"
+nix_user_chroot_url: "https://github.com/nix-community/nix-user-chroot/releases/download/{{ nix_user_chroot_version }}/nix-user-chroot-bin-{{ nix_user_chroot_version }}-x86_64-unknown-linux-musl"
+
+nix_installer_url: https://nixos.org/nix/install
