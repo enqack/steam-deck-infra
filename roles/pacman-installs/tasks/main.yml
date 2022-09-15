@@ -7,9 +7,11 @@
 
 - name: initialize pacman
   ansible.builtin.shell: pacman-key --init
+  become: true
 
 - name: populate pacman
   ansible.builtin.shell: pacman-key --populate archlinux
+  become: true
 
 - name: install packages
   community.general.pacman:

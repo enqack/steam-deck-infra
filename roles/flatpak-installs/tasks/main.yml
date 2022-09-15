@@ -4,6 +4,5 @@
 - name: installing flatpak list
   community.general.flatpak:
     name: "{{ item }}"
-    method: user
     state: "{{ flatpak_installs_state }}"
   loop: "{{ flatpak_installs_packages }}"
