@@ -6,3 +6,4 @@
     name: "{{ item }}"
     state: "{{ flatpak_installs_state }}"
   loop: "{{ flatpak_installs_packages }}"
+  become: true
