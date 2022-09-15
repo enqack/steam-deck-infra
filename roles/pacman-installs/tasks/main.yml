@@ -18,6 +18,7 @@
     name: "{{ item }}"
     state: "{{ pacman_installs_state }}"
   loop: "{{ pacman_installs_packages }}"
+  become: true
 
 - name: enable steamos-readonly
   ansible.builtin.shell: steamos-readonly enable
