@@ -17,6 +17,7 @@
           - com.github.tchx84.Flatseal
           - net.davidotek.pupgui2
           - com.usebottles.bottles
+          - com.steamgriddb.SGDBoop
 
     # emulation packages
     - role: flatpak-installs
