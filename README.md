@@ -6,7 +6,7 @@ This project is used to manage software installs and manage backups of user data
 
 ### Steam Deck Preparation
 
-Insert a blank SD card into your Steam Deck. Then enter desktop mode and open Konsole.
+Enter desktop mode and open Konsole.
 
 A password must be added to the user account. Enter the following into Konsole and you will be prompted to supply a password and confirm it ( characters will not be displayed as you enter the password ):
 
@@ -14,19 +14,25 @@ A password must be added to the user account. Enter the following into Konsole a
 passwd
 ```
 
-We must ensure your SD card is unmounted in order to partition and format it. In Konsole, enter the following:
+Next, generate a private key pair for Ansible to work correctly. Run the command below and follow the prompts.
 
 ```
-sudo umount /dev/sda
-sudo parted /dev/sda rm 1
-sudo parted --script --align optimal -- /dev/sda mkpart primary 1MiB -2048s
-mkfs.ext4 -L sdinfra /dev/sda1
+ssh-keygen
 ```
 
-Now re-insert the SD card. Then set permissions for the SD card. In Konsole, enter the following:
+Then copy the public key to your authorized keys. Run the command below and follow the prompts.
 
 ```
-sudo chown $USER:$USER /run/media/$USER/sdinfra
+ssh-copy-id
+```
+
+Insert a blank SD card into your Steam Deck.
+
+In Konsole, enter the following to format and mount your SD card.
+
+```
+sudo mkfs.ext4 -L sdinfra /dev/mmcblk0p1
+udisksctl mount -b /dev/mmcblk0p1
 ```
 
 Now clone the repository and set up Ansible. In Konsole, enter the following:
@@ -52,13 +58,13 @@ ansible-playbook playbooks/main.yml --ask-become-pass
 Back-up your Steam Deck user files with the following command:
 
 ```
-ansible-playbook playbooks/deck-backup.yml
+ansible-playbook playbooks/deck-backup.yml --extra-vars "storage_path=/run/media/$USER/sdinfra"
 ```
 
 Restore your Steam Deck user files with the following commands:
 
 ```
-ansible-playbook playbooks/deck-restore.yml
+ansible-playbook playbooks/deck-restore.yml --extra-vars "storage_path=/run/media/$USER/sdinfra"
 ```
 
 ### Additional Runs
@@ -68,6 +74,14 @@ Once Konsole is closed some configuration is lost. To re-run the above operation
 ```
 cd /run/media/$USER/sdinfra/steam-deck-infra
 source .venv/bin/activate
+```
+
+#### Warning
+
+Once the Steam Deck is rebooted or the SD card is re-inserted it's mounting path with change to the following:
+
+```
+/run/media/sdinfra
 ```
 
 ## Overview

@@ -6,36 +6,36 @@
   vars:
     user: "{{ lookup('ansible.builtin.env', 'USER') }}"
     home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
-    sdcard_label: "sdinfra"
-    sdcard_path: "/run/media/{{ user }}/{{ sdcard_label }}"
+    storage_label: "sdinfra"
+    storage_path: "/run/media/{{ storage_label }}"
 
   tasks:
-    - name: "check for SD card with label: {{ sdcard_label }}"
+    - name: "check for back-up storage"
       ansible.builtin.stat:
-        path: "{{ sdcard_path }}"
+        path: "{{ storage_path }}"
       register: sdcard_check
 
-    - name: fail if SD card was not detected
+    - name: fail if back-up storage was not detected
       fail:
-        msg: SD card was not detected
+        msg: "back-up storage was not detected: {{ storage_path }}"
       when: sdcard_check.stat.isdir is not defined
 
     - name: ensure rsync-backup diretory is present
       ansible.builtin.file:
-        path: "{{ sdcard_path }}/rsync-backups"
+        path: "{{ storage_path }}/rsync-backups"
         state: directory
 
     - name: backup user configuration
       ansible.posix.synchronize:
         src: "{{ home }}/.config"
-        dest: "{{ sdcard_path }}/rsync-backups"
+        dest: "{{ storage_path }}/rsync-backups"
 
     - name: backup user variable data
       ansible.posix.synchronize:
         src: "{{ home }}/.var"
-        dest: "{{ sdcard_path }}/rsync-backups"
+        dest: "{{ storage_path }}/rsync-backups"
 
     - name: backup most saved game data
       ansible.posix.synchronize:
         src: "{{ home }}/.local/share/Steam/userdata"
-        dest: "{{ sdcard_path }}/rsync-backups"
+        dest: "{{ storage_path }}/rsync-backups"

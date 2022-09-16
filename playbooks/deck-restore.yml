@@ -6,34 +6,34 @@
   vars:
     user: "{{ lookup('ansible.builtin.env', 'USER') }}"
     home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
-    sdcard_label: "sdinfra"
-    sdcard_path: "/run/media/{{ user }}/{{ sdcard_label }}"
+    storage_label: "sdinfra"
+    storage_path: "/run/media/{{ storage_label }}"
 
   tasks:
-    - name: "check for SD card with label: {{ sdcard_label }}"
+    - name: "check for back-up storage"
       ansible.builtin.stat:
-        path: "{{ sdcard_path }}"
+        path: "{{ storage_path }}"
       register: sdcard_check
 
-    - name: fail if SD card was not detected
+    - name: fail if back-up storage was not detected
       fail:
-        msg: SD card was not detected
+        msg: "back-up storage was not detected: {{ storage_path }}"
       when: sdcard_check.stat.isdir is not defined
 
     - name: restore user configuration
       ansible.posix.synchronize:
-        src: "{{ sdcard }}/rsync-backups/.config"
+        src: "{{ storage_path }}/rsync-backups/.config"
         dest: "{{ home }}/"
         mode: pull
 
     - name: restore user variable data
       ansible.posix.synchronize:
-        src: "{{ sdcard }}/rsync-backups/.var"
+        src: "{{ storage_path }}/rsync-backups/.var"
         dest: "{{ home }}/"
         mode: pull
 
     - name: restore most saved game data
       ansible.posix.synchronize:
-        src: "{{ sdcard }}/rsync-backups/userdata"
+        src: "{{ storage_path }}/rsync-backups/userdata"
         dest: "{{ home }}/.local/share/Steam/"
         mode: pull
