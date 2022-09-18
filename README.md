@@ -93,12 +93,14 @@ Once the Steam Deck is rebooted or the SD card is re-inserted it's mounting path
 * Flatseal
 * Proton Up QT
 * Bottles
+* SDGBoop
 
 * Steam ROM Manager
 * DOSBox
 * DuckStation
 * xemu
 
+* Bitwarden
 * Discord
 * OBS Studio
 * VLC

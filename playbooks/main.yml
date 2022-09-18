@@ -33,6 +33,7 @@
     - role: flatpak-installs
       vars:
         flatpak_installs_packages:
+          - com.bitwarden.desktop
           - com.discordapp.Discord
           - com.obsproject.Studio
           - org.videolan.VLC
