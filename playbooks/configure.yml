@@ -5,28 +5,26 @@
 
   tasks:
 
-    - name: turn off wifi powersaving mode
-      community.general.ini_file:
-        path: /etc/NetworkManager/conf.d/wifi-powersave.conf
-        section: connection
-        option: wifi.powersave
-        value: "2"
-        mode: "0644"
-      become: true
+    - block:
+    
+      - name: turn off wifi powersaving mode
+        community.general.ini_file:
+          path: /etc/NetworkManager/conf.d/wifi-powersave.conf
+          section: connection
+          option: wifi.powersave
+          value: "2"
+          mode: "0644"
 
-    - name: restart NetworkManager
-      ansible.builtin.systemd:
-        name: NetworkManager
-        state: restarted
+      - name: restart NetworkManager
+        ansible.builtin.systemd:
+          name: NetworkManager
+          state: restarted
+        async: 60
 
-    - name: wait for connection to recover 
-      ansible.builtin.wait_for_connection:
-        delay: 30
-        timeout: 300
+      - name: start and enable sshd
+        ansible.builtin.systemd:
+          name: sshd
+          state: started
+          enabled: true
 
-    - name: start and enable sshd
-      ansible.builtin.systemd:
-        name: sshd
-        state: started
-        enabled: true
-      become: true
+    become: true
