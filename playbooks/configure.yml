@@ -6,7 +6,7 @@
   tasks:
 
     - block:
-    
+
       - name: turn off wifi powersaving mode
         community.general.ini_file:
           path: /etc/NetworkManager/conf.d/wifi-powersave.conf
@@ -27,4 +27,4 @@
           state: started
           enabled: true
 
-    become: true
+      become: true
