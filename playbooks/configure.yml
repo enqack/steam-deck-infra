@@ -1,0 +1,27 @@
+---
+- name: configure steam deck
+  hosts: all
+  gather_facts: false
+
+  tasks:
+
+    - name: turn off wifi powersaving mode
+      community.general.ini_file:
+        path: /etc/NetworkManager/conf.d/wifi-powersave.conf
+        section: connection
+        option: wifi.powersave
+        value: "2"
+        mode: "0644"
+      become: true
+
+    - name: restart NetworkManager
+      ansible.builtin.systemd:
+        name: NetworkManager
+        state: restarted
+
+    - name: start and enable sshd
+      ansible.builtin.systemd:
+        name: sshd
+        state: started
+        enabled: true
+      become: true

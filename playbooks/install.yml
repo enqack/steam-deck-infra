@@ -1,0 +1,43 @@
+---
+- name: install playbook
+  hosts: all
+  gather_facts: false
+
+  roles:
+
+    - role: pacman-installs
+      vars:
+        pacman_installs_packages:
+          - alacritty
+
+    # base packages
+    - role: flatpak-installs
+      vars:
+        flatpak_installs_packages:
+          - com.github.tchx84.Flatseal
+          - net.davidotek.pupgui2
+          - com.usebottles.bottles
+          - com.steamgriddb.SGDBoop
+
+    # emulation packages
+    - role: flatpak-installs
+      vars:
+        flatpak_installs_packages:
+          - com.steamgriddb.steam-rom-manager
+          - com.dosbox.DOSBox
+          - io.github.dosbox-staging
+          - org.duckstation.DuckStation
+          - app.xemu.xemu
+
+    # other packages
+    - role: flatpak-installs
+      vars:
+        flatpak_installs_packages:
+          - com.bitwarden.desktop
+          - com.discordapp.Discord
+          - com.obsproject.Studio
+          - org.videolan.VLC
+          - com.visualstudio.code
+          - com.spotify.Client
+          - org.kde.krita
+          - com.google.Chrome
