@@ -19,6 +19,11 @@
         name: NetworkManager
         state: restarted
 
+    - name: wait for connection to recover 
+      ansible.builtin.wait_for_connection:
+        delay: 30
+        timeout: 300
+
     - name: start and enable sshd
       ansible.builtin.systemd:
         name: sshd
