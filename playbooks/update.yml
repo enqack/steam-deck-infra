@@ -1,0 +1,10 @@
+---
+- name: Update playbook
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Update all flatpaks to latest version
+      ansible.builtin.shell:
+        cmd: flatpack update --noninteractive --assumeyes
+      become: true
