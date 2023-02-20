@@ -6,5 +6,5 @@
   tasks:
     - name: Update all flatpaks to latest version
       ansible.builtin.shell:
-        cmd: flatpack update --noninteractive --assumeyes
+        cmd: flatpak update --noninteractive --assumeyes
       become: true
