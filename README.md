@@ -20,6 +20,12 @@ Next, generate a private key pair for Ansible to work correctly. Run the command
 ssh-keygen
 ```
 
+In Konsole, enter the following to start the ssh server:
+
+```
+sudo systemctl enable --now sshd.service
+```
+
 Then copy the public key to your authorized keys. Run the command below and follow the prompts.
 
 ```
