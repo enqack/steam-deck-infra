@@ -3,6 +3,14 @@
   hosts: all
   gather_facts: false
 
+  vars:
+  
+    sd_infra_swapfile_resize: false
+    sd_infra_swapfile_location: /home/swapfile
+    sd_infra_swapfile_blocksize: 1G
+    sd_infra_swapfile_blockcount: 16
+    sd_infra_swapfile_swappiness: 1
+
   tasks:
 
     - block:
@@ -19,12 +27,47 @@
         ansible.builtin.systemd:
           name: NetworkManager
           state: restarted
-        async: 60
+        async: 15
 
-      - name: start and enable sshd
-        ansible.builtin.systemd:
-          name: sshd
-          state: started
-          enabled: true
+      - name: check swapfile size
+        ansible.builtin.stat:
+          path: "{{ sd_infra_swapfile_location }}"
+        register: swapfile_stat
+
+      - name: if swapfile is smaller than target size set fact
+        ansible.builtin.set_fact:
+          sd_infra_swapfile_resize: true
+        when: swapfile_stat.stat.size != 17179869184
+
+      - block:
+
+        - name: turn off swap
+          ansible.builtin.command: |
+            swapoff -a
+
+        - name: create new swapfile
+          ansible.builtin.shell: |
+            dd if=/dev/zero of={{ sd_infra_swapfile_location }} bs={{ sd_infra_swapfile_blocksize }} count={{ sd_infra_swapfile_blockcount }}
+
+        - name: set permissions on swapfile
+          ansible.builtin.file:
+            path: "{{ sd_infra_swapfile_location }}"
+            mode: 0600
+
+        - name: "set swappiness to {{ sd_infra_swapfile_swappiness }}"
+          ansible.posix.sysctl:
+            name: vm.swappiness
+            value: '{{ sd_infra_swapfile_swappiness }}'
+            state: present
+
+        - name: initialize swapfile
+          ansible.builtin.command: |
+            mkswap {{ sd_infra_swapfile_location }}
+
+        - name: turn swap on
+          ansible.builtin.command: |
+            swapon {{ sd_infra_swapfile_location }}
+        
+        when: sd_infra_swapfile_resize
 
       become: true
